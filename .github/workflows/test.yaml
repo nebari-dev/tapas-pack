@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   # The pack on a kind cluster with the Nebari stack (MetalLB, Envoy Gateway,
-  # cert-manager, Keycloak, nebari-operator), then a Keycloak sign-in to Javo
+  # cert-manager, Keycloak, nebari-operator), then a Keycloak sign-in to Tapas
   # through the gateway and an app opened on the apps host (dev/verify-signin.sh).
   integration:
     runs-on: ubuntu-24.04

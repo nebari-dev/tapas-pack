@@ -11,7 +11,7 @@
 # Must equal the GitHub repo name exactly.
 name: javo-pack
 
-display_name: Javo Pack
+display_name: Tapas Pack
 
 # experimental | alpha | beta | ga
 # Experimental: new, and run so far on one NIC test cluster.
@@ -29,7 +29,7 @@ product_owner: null
 # Optional fields
 # ----------------------------------------------------------------------------
 
-description: Javo (apps, notebooks and scheduled jobs for teams) on Nebari, signing in with Keycloak through the nebari-operator.
+description: Tapas (apps, notebooks and scheduled jobs for teams) on Nebari, signing in with Keycloak through the nebari-operator.
 
 # full: NebariApps cover routing and TLS for both hosts, Keycloak client
 # provisioning (groups, audience mapper, realm group) and a landing-page tile.
@@ -43,6 +43,6 @@ scope:
 docs_site: false
 
 demo_notes: |
-  Two hosts per install (UI and apps). Javo signs people in itself with the
+  Two hosts per install (UI and apps). Tapas signs people in itself with the
   operator-provisioned Keycloak client; the gateway enforces no auth. Nebi
   environments need nebariapp.auth.nebiAudience set to nebi-pack's client ID.

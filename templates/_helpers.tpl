@@ -90,12 +90,12 @@ javo values are literal and checked here instead.
 {{- end -}}
 {{- $secret := include "javo-pack.clientSecretName" . -}}
 {{- if ne (toString $j.gateway.oidcClientSecret) $secret -}}
-{{- fail (printf "javo.gateway.oidcClientSecret must be %q, the Secret the operator writes Javo's client secret to" $secret) -}}
+{{- fail (printf "javo.gateway.oidcClientSecret must be %q, the Secret the operator writes Tapas's client secret to" $secret) -}}
 {{- end -}}
 {{- if and $j.publicHost (ne $j.publicHost $uiHost) -}}
 {{- fail "javo.publicHost must equal javo.config.urls.uiHost (or be empty)" -}}
 {{- end -}}
 {{- if and ((default (dict) $j.config.nebi).enabled) (not .Values.nebariapp.auth.nebiAudience) -}}
-{{- fail "nebariapp.auth.nebiAudience is required with javo.config.nebi.enabled: Nebi's Keycloak client ID, so Nebi accepts Javo's ID tokens" -}}
+{{- fail "nebariapp.auth.nebiAudience is required with javo.config.nebi.enabled: Nebi's Keycloak client ID, so Nebi accepts Tapas's ID tokens" -}}
 {{- end -}}
 {{- end }}

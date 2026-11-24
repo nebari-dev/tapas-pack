@@ -1,6 +1,6 @@
-# Values for a NIC cluster: its domain. Javo is served at javo.<domain> and
+# Values for a NIC cluster: its domain. Tapas is served at javo.<domain> and
 # javo-apps.<domain> (DNS for both, or a wildcard), and signs in with
-# https://keycloak.<domain>/realms/nebari. NIC's realm admin becomes a Javo
+# https://keycloak.<domain>/realms/nebari. NIC's realm admin becomes a Tapas
 # admin; list more Keycloak usernames under nebariapp.auth.keycloakGroups.
 global:
   domain: example.com

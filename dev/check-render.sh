@@ -1,7 +1,7 @@
 #!/bin/sh
 # Renders the pack with helm template and checks what the values derive:
 # the domain alone gives both hosts, the Keycloak issuer, the client ID and
-# the Nebi names; explicit values still win; values that would point Javo at
+# the Nebi names; explicit values still win; values that would point Tapas at
 # a client or Secret the operator does not create are refused.
 #
 # Usage (from the repository root, after helm dependency build):
@@ -12,7 +12,7 @@ out=$(mktemp)
 trap 'rm -f "$out"' EXIT
 failed=0
 
-# Javo refuses to render without ValidatingAdmissionPolicy, which every
+# Tapas refuses to render without ValidatingAdmissionPolicy, which every
 # supported cluster (Kubernetes 1.30+) serves; helm template sees no cluster.
 API_VERSIONS="--api-versions admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy"
 

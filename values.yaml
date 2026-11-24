@@ -2,8 +2,8 @@
 #
 # Two parts:
 #   nebariapp  What this pack adds: the NebariApp resources that make the
-#              nebari-operator route Javo's two hosts, issue their TLS
-#              certificates and provision Javo's Keycloak client.
+#              nebari-operator route Tapas's two hosts, issue their TLS
+#              certificates and provision Tapas's Keycloak client.
 #   javo       Passed to the javo chart (its full reference is the javo
 #              chart's values.yaml). The defaults below are the ones that
 #              differ from the javo chart for a NIC cluster.
@@ -16,7 +16,7 @@
 
 global:
   # The cluster's domain, the one NIC serves Keycloak under
-  # (keycloak.<domain>). Javo gets javo.<domain> and javo-apps.<domain>.
+  # (keycloak.<domain>). Tapas gets javo.<domain> and javo-apps.<domain>.
   domain: ""
 
 # =============================================================================
@@ -32,7 +32,7 @@ nebariapp:
   #   Keycloak client ID: <release namespace>-<name>   (javo.config.auth.oidc.clientID)
   #   client Secret:      <name>-oidc-client           (javo.gateway.oidcClientSecret)
   # A fixed name (not derived from the release) keeps both predictable. The
-  # javo chart's resources have fixed names too, so one Javo per namespace.
+  # javo chart's resources have fixed names too, so one Tapas per namespace.
   name: javo
 
   # Name of the NebariApp for the apps host (javo.config.urls.appsHost).
@@ -48,14 +48,14 @@ nebariapp:
   gateway: public
 
   auth:
-    # Scopes the operator assigns to Javo's client as default scopes.
-    # Javo itself asks for javo.config.auth.oidc.scopes.
+    # Scopes the operator assigns to Tapas's client as default scopes.
+    # Tapas itself asks for javo.config.auth.oidc.scopes.
     scopes:
       - openid
       - profile
       - email
-    # Group-membership mapper on Javo's client, claim "groups", in the ID
-    # token (Javo reads groups from the ID token). true: groups look like
+    # Group-membership mapper on Tapas's client, claim "groups", in the ID
+    # token (Tapas reads groups from the ID token). true: groups look like
     # /javo-admins. Keep it the same as any realm-wide default "groups"
     # scope (the full path is what such a scope emits when the data science
     # pack's RBAC bootstrap manages it), or every group appears in both
@@ -63,7 +63,7 @@ nebariapp:
     groupsFullPath: true
     # Client ID of Nebi's Keycloak client (nebari-nebi-pack:
     # <nebi namespace>-<nebi NebariApp name>). With javo.config.nebi.enabled,
-    # an Audience mapper puts it in the ID tokens Javo receives, which Nebi
+    # an Audience mapper puts it in the ID tokens Tapas receives, which Nebi
     # requires before it trusts them. The default is nebi-pack's client when
     # it is installed as release nebi-pack in namespace nebi.
     nebiAudience: nebi-nebi-pack-nebari-nebi-pack
@@ -80,9 +80,9 @@ nebariapp:
   # Card on the Nebari landing page.
   landingPage:
     enabled: true
-    displayName: Javo
+    displayName: Tapas
     description: Apps, notebooks and scheduled jobs for your team
-    # Empty: https://<uiHost>/favicon.svg (served by Javo without sign-in).
+    # Empty: https://<uiHost>/favicon.svg (served by Tapas without sign-in).
     icon: ""
     category: Data Science
     priority: 2
@@ -91,13 +91,13 @@ nebariapp:
       path: /healthz
 
 # =============================================================================
-# Javo (javo chart values)
+# Tapas (javo chart values)
 # =============================================================================
 javo:
   # The image is the one the published javo chart pins (repository, tag and
   # digest of its release), so it follows the javo dependency in Chart.yaml.
 
-  # SQLite: Javo's gateway and controller run in one pod (one replica,
+  # SQLite: Tapas's gateway and controller run in one pod (one replica,
   # Recreate) and the database is a file on a volume kept on uninstall.
   # It needs nothing else in the cluster, and one replica serves a team of
   # the size a data science pack serves today. Use Postgres (engine:
@@ -157,15 +157,15 @@ javo:
       member: {groups: []}
     urls:
       mode: path
-      # Javo's web UI.
+      # Tapas's web UI.
       uiHost: "javo.{{ .Values.global.domain }}"
       # Where apps are served. A host of its own is what lets people share
-      # apps (Javo refuses sharing while apps share the UI's origin).
+      # apps (Tapas refuses sharing while apps share the UI's origin).
       appsHost: "javo-apps.{{ .Values.global.domain }}"
       scheme: https
     storage:
       home:
-        # One disk per person (ReadWriteOnce). Javo's auto mode picks one
+        # One disk per person (ReadWriteOnce). Tapas's auto mode picks one
         # shared drive on Longhorn, NIC's default class, and Longhorn serves
         # shared volumes over NFS, which needs an NFS client on every node;
         # NIC does not install one. A disk per person works on every class.

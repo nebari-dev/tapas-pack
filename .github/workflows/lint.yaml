@@ -44,7 +44,7 @@ jobs:
       - name: Helm lint
         run: helm lint . -n javo -f examples/nebari-values.yaml
 
-      # Javo refuses to render without ValidatingAdmissionPolicy, which every
+      # Tapas refuses to render without ValidatingAdmissionPolicy, which every
       # supported cluster (Kubernetes 1.30+) serves; helm template sees no
       # cluster, so it is told.
       - name: Helm template (NebariApp enabled)
@@ -54,7 +54,7 @@ jobs:
         run: helm template javo-pack . -n javo --set nebariapp.enabled=false --api-versions admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy
 
       # What one domain derives, explicit values winning, and values that
-      # would point Javo at a client or Secret the operator does not create
+      # would point Tapas at a client or Secret the operator does not create
       # being refused.
       - name: Render checks
         run: dev/check-render.sh

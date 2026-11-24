@@ -1,17 +1,17 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nebari-dev/javo/main/brand/javo-logo-white.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/nebari-dev/javo/main/brand/javo-logo.svg">
-    <img src="https://raw.githubusercontent.com/nebari-dev/javo/main/brand/javo-logo.svg" alt="Javo" width="320">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nebari-dev/tapas/main/brand/tapas-logo-white.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/nebari-dev/tapas/main/brand/tapas-logo.svg">
+    <img src="https://raw.githubusercontent.com/nebari-dev/tapas/main/brand/tapas-logo.svg" alt="Tapas" width="320">
   </picture>
 </p>
 
-<p align="center"><b>Javo on Nebari: the agent-first data science platform.</b></p>
+<p align="center"><b>Tapas on Nebari: the agent-first data science platform.</b></p>
 
 > [!WARNING]
-> **This pack and Javo are experimental.** Values and resources may change between releases without a migration path, and neither has run in production yet. Use a test cluster.
+> **This pack and Tapas are experimental.** Values and resources may change between releases without a migration path, and neither has run in production yet. Use a test cluster.
 
-A Nebari software pack for [Javo](https://github.com/nebari-dev/javo). It installs the javo chart and two `NebariApp` resources, so the nebari-operator routes Javo's UI and apps hosts through the Envoy Gateway, gives them TLS, and creates Javo's Keycloak client.
+A Nebari software pack for [Tapas](https://github.com/nebari-dev/tapas). It installs the javo chart and two `NebariApp` resources, so the nebari-operator routes Tapas's UI and apps hosts through the Envoy Gateway, gives them TLS, and creates Tapas's Keycloak client.
 
 ## Requirements
 
@@ -46,15 +46,15 @@ From it and the release namespace the pack derives:
 | UI and apps hosts | `javo.<domain>`, `javo-apps.<domain>` |
 | Keycloak issuer | `https://keycloak.<domain>/realms/nebari` |
 | Keycloak client and its Secret | `<namespace>-javo`, `javo-oidc-client` (the operator creates both) |
-| Javo admins | Keycloak group `javo-admins`, with NIC's realm admin `admin` in it |
+| Tapas admins | Keycloak group `javo-admins`, with NIC's realm admin `admin` in it |
 | Nebi (off) | `javo.config.nebi.enabled: true` uses nebi-pack's names when it is installed as release `nebi-pack` in namespace `nebi` |
 | Storage | the cluster's default StorageClass, one disk per person |
 
-Set any of them to override it, for example `javo.config.urls.uiHost: hub.example.org` or more admins under `nebariapp.auth.keycloakGroups`. Everything else is the [javo chart's values](https://github.com/nebari-dev/javo/blob/main/deploy/helm/javo/values.yaml), under `javo:`.
+Set any of them to override it, for example `javo.config.urls.uiHost: hub.example.org` or more admins under `nebariapp.auth.keycloakGroups`. Everything else is the [javo chart's values](https://github.com/nebari-dev/tapas/blob/main/deploy/helm/javo/values.yaml), under `javo:`.
 
 ## Docs
 
-Javo's documentation is at [javo.nebari.dev](https://javo.nebari.dev). Moving from the data science pack: [docs/replacing-data-science-pack.md](docs/replacing-data-science-pack.md).
+Tapas's documentation is at [javo.nebari.dev](https://javo.nebari.dev). Moving from the data science pack: [docs/replacing-data-science-pack.md](docs/replacing-data-science-pack.md).
 
 ## License
 
