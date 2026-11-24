@@ -2,7 +2,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nebari-dev/tapas/main/brand/tapas-logo-white.svg">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/nebari-dev/tapas/main/brand/tapas-logo.svg">
-    <img src="https://raw.githubusercontent.com/nebari-dev/tapas/main/brand/tapas-logo.svg" alt="Tapas" width="384">
+    <img src="https://raw.githubusercontent.com/nebari-dev/tapas/main/brand/tapas-logo.svg" alt="Tapas" width="362">
   </picture>
 </p>
 
