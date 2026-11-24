@@ -2,7 +2,7 @@
 #
 # Creates a kind cluster with the Nebari stack the operator's own dev scripts
 # install (MetalLB, Envoy Gateway, cert-manager, Keycloak, nebari-operator),
-# installs the pack with both NebariApps enabled, and signs in to Javo through
+# installs the pack with both NebariApps enabled, and signs in to Tapas through
 # the gateway with a Keycloak user (verify-signin.sh).
 #
 # Prerequisites: docker, kind, helm, kubectl, git, curl.
@@ -13,13 +13,13 @@
 #
 # Usage:
 #   make cluster        Create the cluster and the Nebari stack (5-10 minutes)
-#   make vendor-javo    Package the Javo chart from JAVO_CHART_DIR into ../charts/
+#   make vendor-javo    Package the Tapas chart from JAVO_CHART_DIR into ../charts/
 #   make load-image     Load JAVO_IMAGE into the kind nodes
 #   make up             Install the pack (needs vendor-javo and load-image first)
-#   make verify         Sign in through the gateway with Keycloak and open Javo
+#   make verify         Sign in through the gateway with Keycloak and open Tapas
 #   make down           Delete the cluster
 #
-# Before the Javo chart is published, point JAVO_CHART_DIR at a checkout:
+# Before the Tapas chart is published, point JAVO_CHART_DIR at a checkout:
 #   make vendor-javo JAVO_CHART_DIR=~/src/javo/deploy/helm/javo
 # After it is published, `helm dependency build ..` pulls it from GHCR instead.
 

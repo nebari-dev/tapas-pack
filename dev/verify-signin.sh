@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Signs in to Javo through the Nebari gateway with a Keycloak user, with curl,
+# Signs in to Tapas through the Nebari gateway with a Keycloak user, with curl,
 # on the kind cluster from dev/Makefile:
 #
-#   1. Javo answers on the UI host and on the apps host through Envoy (TLS from
+#   1. Tapas answers on the UI host and on the apps host through Envoy (TLS from
 #      the operator's per-host listeners).
 #   2. /auth/oidc/start redirects to the operator-provisioned Keycloak client.
 #   3. The Keycloak login form accepts the realm user.
-#   4. Keycloak redirects to Javo's own callback; Javo exchanges the code and
+#   4. Keycloak redirects to Tapas's own callback; Tapas exchanges the code and
 #      sets its session.
 #   5. /api/me answers as that user, with the groups from the client's mapper.
 #
@@ -67,7 +67,7 @@ step "Landing page icon is served without sign-in"
 code=$(c -o /dev/null -w '%{http_code}' "https://$UI/favicon.svg")
 [ "$code" = 200 ] && ok "$code" || die "GET https://$UI/favicon.svg -> $code"
 
-step "Sign-in starts at Keycloak with Javo's client"
+step "Sign-in starts at Keycloak with Tapas's client"
 auth_url=$(c -o /dev/null -w '%{redirect_url}' "https://$UI/auth/oidc/start")
 case "$auth_url" in
   "http://$KC_HOST/"*"client_id=$NS-javo"*) ok ;;
@@ -84,7 +84,7 @@ action=$(grep -o 'action="[^"]*login-actions/authenticate[^"]*"' "$work/login.ht
 # cookies in the jar (a browser makes the same exception for localhost only).
 awk -v h="$KC_HOST" 'BEGIN{FS=OFS="\t"} ($1==h || $1=="#HttpOnly_" h) {$4="FALSE"} {print}' "$jar" >"$jar.tmp" && mv "$jar.tmp" "$jar"
 
-step "Keycloak accepts $KC_USER and returns to Javo's callback"
+step "Keycloak accepts $KC_USER and returns to Tapas's callback"
 callback=$(c -w '%{redirect_url}' \
   --data-urlencode "username=$KC_USER" --data-urlencode "password=$KC_PASSWORD" \
   -o "$work/post.html" "$action")
@@ -93,11 +93,11 @@ case "$callback" in
   *) die "redirect was: '$callback' (rerun with KEEP=1 and read $work/post.html)" ;;
 esac
 
-step "Javo exchanges the code and starts a session"
+step "Tapas exchanges the code and starts a session"
 code=$(c -o /dev/null -w '%{http_code}' "$callback")
 case "$code" in 302|303) ok "$code" ;; *) die "callback -> $code" ;; esac
 
-step "Javo knows the user"
+step "Tapas knows the user"
 c "https://$UI/api/me" >"$work/me.json"
 grep -q "\"$KC_USER\"" "$work/me.json" && ok || die "$(cat "$work/me.json")"
 echo "  $(cat "$work/me.json")"
@@ -106,16 +106,16 @@ echo "  $(cat "$work/me.json")"
 # the single-use ticket hop from the UI host to the apps host. Skip with
 # APP_CHECK=0 (it pulls the nginx image on first run).
 if [ "${APP_CHECK:-1}" = 1 ]; then
-  step "Javo creates an app (Container image, nginx)"
-  # The app has no login of its own, so Javo creates it only once its
+  step "Tapas creates an app (Container image, nginx)"
+  # The app has no login of its own, so Tapas creates it only once its
   # NetworkPolicy probe has seen the policy enforced. The first probe runs as
-  # Javo starts and can end Unknown; it tries again after 30 s, then 60 s.
+  # Tapas starts and can end Unknown; it tries again after 30 s, then 60 s.
   for try in $(seq 1 12); do
     c -o "$work/app.json" -w '%{http_code}' -H 'Content-Type: application/json' -H 'X-Javo-Request: 1' \
       -d "{\"displayName\":\"Pack check $(date +%s)\",\"template\":\"container\",\"image\":\"$APP_IMAGE\",\"port\":8080}" \
       "https://$UI/api/workspaces" >"$work/code"
     grep -q 'does not enforce NetworkPolicy' "$work/app.json" || break
-    [ "$try" = 1 ] && echo "  waiting for Javo's NetworkPolicy probe"
+    [ "$try" = 1 ] && echo "  waiting for Tapas's NetworkPolicy probe"
     sleep 10
   done
   case "$(cat "$work/code")" in 200|201) ok ;; *) die "$(cat "$work/code") $(cat "$work/app.json")" ;; esac
@@ -137,7 +137,7 @@ if [ "${APP_CHECK:-1}" = 1 ]; then
   [ "$code" = 200 ] && grep -qi "welcome to nginx" "$work/page.html" && case "$final" in "https://$APPS/"*) true ;; *) false ;; esac \
     && ok "$code" || die "$code at $final"
 
-  step "Javo deletes the app"
+  step "Tapas deletes the app"
   code=$(c -o /dev/null -w '%{http_code}' -H 'X-Javo-Request: 1' -X DELETE "https://$UI/api/workspaces/$name")
   case "$code" in 200|202|204) ok "$code" ;; *) die "DELETE -> $code" ;; esac
 fi

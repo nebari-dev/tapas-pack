@@ -4,17 +4,17 @@ Service:
 
   <nebariapp.name>      the UI host (javo.config.urls.uiHost). The operator
                         routes it, issues its certificate, and provisions
-                        Javo's Keycloak client and its Secret. Javo signs
+                        Tapas's Keycloak client and its Secret. Tapas signs
                         people in itself (authorization code flow with PKCE
                         at /auth/oidc/callback), so the gateway enforces
                         nothing here: enforceAtGateway is false.
   <nebariapp.appsName>  the apps host (javo.config.urls.appsHost), routing and
-                        TLS only. Javo checks every request on it against its
+                        TLS only. Tapas checks every request on it against its
                         own session and the app's sharing; a gateway login in
                         front would stop anonymous visitors of public apps.
 
 The Nebari pack specification asks for exactly one NebariApp per pack. A
-NebariApp has one hostname, and Javo needs a second origin for apps (sharing
+NebariApp has one hostname, and Tapas needs a second origin for apps (sharing
 is refused without it), hence the second one. It carries no auth.
 */ -}}
 {{- if .Values.nebariapp.enabled }}
